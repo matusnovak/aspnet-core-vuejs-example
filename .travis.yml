@@ -1,0 +1,9 @@
+language: csharp
+mono: none
+dotnet: 3.0.0
+services:
+  - docker
+script:
+  - dotnet restore
+  - dotnet test
+  - docker build . -t example:latest
