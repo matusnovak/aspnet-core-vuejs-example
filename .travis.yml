@@ -1,17 +1,12 @@
-dist: xenial
-addons:
-  snaps:
-  - name: dotnet-sdk
-    classic: true
-    channel: latest/beta
-services:
-  - docker
-sudo: required
-language: csharp
-mono: none
+dist: bionic
 script:
-  - sudo snap alias dotnet-sdk.dotnet dotnet
+  - wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+  - sudo dpkg -i packages-microsoft-prod.deb
+  - sudo add-apt-repository universe
+  - sudo apt-get update
+  - sudo apt-get install apt-transport-https
+  - sudo apt-get install dotnet-sdk-3.0
   - dotnet --version
   - dotnet restore
   - dotnet test
-  - docker build . -t example:$(git describe)
+  - docker build . -t example
